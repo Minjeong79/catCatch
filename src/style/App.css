@@ -1,0 +1,323 @@
+/* @font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'yg-jalnan';
+    color: #555;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.block {
+    display: block;
+}
+
+.disnone {
+    display: none;
+} */
+
+/* article {
+    width: 100%;
+    height: 80vh;
+    margin: auto;
+    position: relative;
+    max-width: 740px;
+
+} */
+
+/* 배경 이미지 */
+/* .background_img {
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: relative;
+} */
+
+/* .logo_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 55%;
+} */
+
+/* .cat_logo {
+    background: url("/public/logo.png") no-repeat;
+    width: 28rem;
+    height: 100%;
+    background-size: contain;
+    background-position: center 4rem;
+} */
+
+/* .cat_center_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+/* .cat_center {
+    background: url("/public/cat_center.png") no-repeat;
+    width: 5.5vw;
+    height: 7.7vh;
+    background-size: contain;
+    min-width: 73px;
+    min-height: 70px;
+} */
+
+/* .step_box {
+    margin-top: 1.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+} */
+
+/* .gFood {
+    background: url("/public/gfood-icon.png") no-repeat;
+    width: 4rem;
+    height: 4rem;
+    background-size: cover;
+} */
+
+/* .bFood {
+    background: url("/public/bfood-icon.png") no-repeat;
+    width: 4rem;
+    height: 4rem;
+    background-size: cover;
+}
+
+.rFood {
+    background: url("/public/rfood-icon.png") no-repeat;
+    width: 4rem;
+    height: 4rem;
+    background-size: cover;
+} */
+
+/* .food:hover {
+    transform: rotate(45deg);
+} */
+
+/* 로그인 */
+/* .form_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+} */
+/* 
+.form_box input {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #999;
+    padding-left: 10px;
+} */
+
+/* .form_box button {
+    background: url("/public/start.png") no-repeat;
+    width: 7rem;
+    height: 3rem;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+} */
+
+/* 메인 */
+/* .main_box {
+    background: #f9f9f7;
+    max-width: 800px;
+    height: 700px;
+    margin: auto;
+    padding-top: 20px;
+} */
+
+/* .main_box .number_text {
+    text-align: center;
+    font-size: 1.5rem;
+} */
+
+/* .main_box .number_text h1 {
+    padding-top: 30px;
+    margin-bottom: 5px;
+} */
+
+/* .imgBox {
+    position: relative;
+    padding: 10px;
+    height: 450px;
+    display: flex;
+    overflow: hidden;
+} */
+
+/* .imgBox img {
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.imgBox_div {
+    min-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+} */
+
+/* .transparent_image {
+    opacity: 0;
+} */
+
+/* .main_box_bottom {
+    background: #e8e2cf;
+    height: 8rem;
+} */
+
+/* 랭킹 팝업 */
+/* .pop_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .pop {
+    width: 255px;
+    height: 200px;
+    background: #f3f0e8;
+    border: 5px solid #d4c3b3;
+    border-radius: 10px;
+    position: absolute;
+    top: 33%;
+} */
+
+/* .pop_nickname {
+    text-align: center;
+    margin-top: 40px;
+} */
+
+/* .pop_nickname h5 {
+    margin-bottom: 10px;
+} */
+
+/* .btn_box {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+} */
+
+/* .btn_box .btn1 {
+    background: url("/public/home.png") no-repeat;
+    width: 4rem;
+    height: 1.7rem;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn_box .btn2 {
+    background: url("/public/rank.png") no-repeat;
+    width: 4rem;
+    height: 1.7rem;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+} */
+
+/* .mouse_event {
+    position: fixed;
+    pointer-events: none;
+    cursor: none;
+} */
+
+/* 랭킹페이지 */
+/* .rank_box {
+
+    height: 90%;
+    margin: auto;
+    background: #f3f0e8;
+    border: 5px solid #d4c3b3;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+} */
+
+/* .rank_box img {
+    padding: 10px 0px;
+    width: 50px;
+    height: 50px;
+} */
+
+/* .rank_list {
+    border: 2px solid #ac826c;
+    width: 70%;
+    height: 56%;
+    border-radius: 20px;
+} */
+
+/* .rank_tab_box {
+    min-width: 500px;
+    margin-bottom: 20px;
+} */
+
+/* .rank_tab {
+    display: flex;
+    justify-content: space-around;
+    cursor-pointer;
+} */
+
+/* .rank_list {
+    padding: 20px;
+} */
+
+/* .rank_list ul li:first-child {
+    border-bottom: 1px solid #ac826c;
+
+} */
+
+/* .rank_list ul li+li {
+    border-bottom: 1px solid #ac826c;
+
+} */
+
+/* .rank_list ul li:last-child {
+    border: none;
+} */
+
+/* .rank_list ul li .img_txt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+} */
+
+/* .btn_box2 .btn1 {
+    background: url("/public/home.png") no-repeat;
+    width: 7rem;
+    height: 3rem;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.img_txt_score span {
+    margin-left: 20px;
+} */
