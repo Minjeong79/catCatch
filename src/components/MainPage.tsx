@@ -227,7 +227,7 @@ const MainPage = () => {
           {imgUrl.map((item, index) => (
             <div
               key={index}
-              className="min-w-12 max-h-12"
+              className="min-w-16 max-h-16"
               onClick={() => handleImgClick(index)}
               ref={(ref) => (imgDivRefs.current[index] = ref)}
             >
@@ -235,7 +235,7 @@ const MainPage = () => {
                 key={index}
                 ref={(element) => (imgRefs.current[index] = element)}
                 id={`imgMove${index}`}
-                className="min-w-12 min-h-12"
+                className="min-w-16 min-h-16"
                 src={item}
                 alt="고양이 이미지"
                 style={{ opacity: "0" }}

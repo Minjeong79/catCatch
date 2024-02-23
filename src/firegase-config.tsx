@@ -3,7 +3,14 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-const firebaseConfig = {};
+const firebaseConfig = {
+  apiKey: "AIzaSyC8_vtp9KB7C1YAKIUqCUyKPM1KLFYUcjs",
+  authDomain: "imggame-24c7e.firebaseapp.com",
+  projectId: "imggame-24c7e",
+  storageBucket: "imggame-24c7e.appspot.com",
+  messagingSenderId: "672190246775",
+  appId: "1:672190246775:web:245654903eb32d41b5fb72",
+};
 const firebaseApp = initializeApp(firebaseConfig);
 const firestore = getFirestore(firebaseApp);
 // Initialize Firebase
