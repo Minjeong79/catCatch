@@ -8,7 +8,7 @@ import { gameBgmContext } from "../Context";
 import "../style/App.css";
 
 type KeyframeType = {
-  [key: string]: string | number; // CSS properties and their types
+  [key: string]: string | number;
 };
 //css 타입
 interface AnimationType {
@@ -139,13 +139,35 @@ const MainPage = () => {
         );
         const urls = await Promise.all(downloadURLPromises);
 
-        setImgUrl(urls);
+        const showRandomImages = () => {
+          if (urls.length === 0) return;
+
+          const randomImages = [];
+
+          for (let i = 0; i < 10; i++) {
+            if (urls.length === 0) break;
+
+            const index = Math.floor(Math.random() * urls.length);
+            randomImages.push(urls[index]);
+            urls.splice(index, 1);
+          }
+          setImgUrl(randomImages);
+        };
+        showRandomImages();
+
+        const interval = setInterval(() => {
+          showRandomImages();
+          if (urls.length === 0) clearInterval(interval);
+        }, 10000);
+        return () => clearInterval(interval);
       } catch (error) {
         console.error("Error getting download URLs:", error);
       }
     };
     imgData();
   }, []);
+
+  console.log(imgUrl.length);
 
   //이미지 css
   const startAnimation = () => {
@@ -166,10 +188,9 @@ const MainPage = () => {
           { opacity: 0.9, transform: `translateX(${ramdom * 10}px)` },
           { opacity: 1, transform: `translate(${ramdom * 10}px, 800px)` },
         ];
-
         const options: AnimationType = {
-          delay: 2000 * (ramdom + 1), //몇초동안 대기 후 시작
-          duration: 1000 * stepValue.stepNumber, //몇초동안 지속
+          delay: ramdom * 500, //몇초동안 대기 후 시작
+          duration: 10000, //몇초동안 지속
           easing: "ease-in", //감속 조절
           iterations: 1, //반복 횟수
         };
@@ -180,7 +201,9 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    startAnimation();
+    if (imgUrl.length) {
+      startAnimation();
+    }
   }, [imgUrl]);
 
   const handleImgClick = (index: number) => {
@@ -227,7 +250,7 @@ const MainPage = () => {
           {imgUrl.map((item, index) => (
             <div
               key={index}
-              className="min-w-16 max-h-16"
+              className="w-16 h-16"
               onClick={() => handleImgClick(index)}
               ref={(ref) => (imgDivRefs.current[index] = ref)}
             >
@@ -235,7 +258,7 @@ const MainPage = () => {
                 key={index}
                 ref={(element) => (imgRefs.current[index] = element)}
                 id={`imgMove${index}`}
-                className="min-w-16 min-h-16"
+                className="w-16 h-16"
                 src={item}
                 alt="고양이 이미지"
                 style={{ opacity: "0" }}
