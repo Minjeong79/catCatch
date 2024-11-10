@@ -19,7 +19,7 @@ const StartPage = () => {
       steps("normal", 6);
     } else {
       sigAanonymous();
-      steps("hard", 5);
+      steps("hard", 3);
     }
     audioCat.play();
     navigation(`/login`);

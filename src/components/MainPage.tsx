@@ -54,7 +54,7 @@ const MainPage = () => {
   //점수
   const [score, SetScore] = useState<number>(0);
   //이미지
-  const [imgUrl, setImgUrl] = useState<string[]>([]);
+  const [imgUrl, setImgUrl] = useState<string[][]>([]);
   //시간초
   const [time, setTime] = useState<number>(10);
 
@@ -126,6 +126,15 @@ const MainPage = () => {
     }
   };
 
+  function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
+    const result: T[][] = [];
+    for (let i = 0; i < array.length; i++) {
+      const chunk = array.slice(i, i + chunkSize);
+      result.push(chunk);
+    }
+    return result;
+  }
+
   //이미지 관련
   useEffect(() => {
     const imgData = async () => {
@@ -137,7 +146,10 @@ const MainPage = () => {
         const downloadURLPromises = response.items.map((item) =>
           getDownloadURL(item)
         );
+
         const urls = await Promise.all(downloadURLPromises);
+        const urlChunks = splitArrayIntoChunks(urls, 10);
+        console.log(urlChunks);
 
         const showRandomImages = () => {
           if (urls.length === 0) return;
@@ -151,7 +163,7 @@ const MainPage = () => {
             randomImages.push(urls[index]);
             urls.splice(index, 1);
           }
-          setImgUrl(randomImages);
+          setImgUrl(urlChunks);
         };
         showRandomImages();
 
@@ -166,8 +178,6 @@ const MainPage = () => {
     };
     imgData();
   }, []);
-
-  console.log(imgUrl.length);
 
   //이미지 css
   const startAnimation = () => {
