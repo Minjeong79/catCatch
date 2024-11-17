@@ -149,21 +149,24 @@ const MainPage = () => {
 
         const urls = await Promise.all(downloadURLPromises);
         const urlChunks = splitArrayIntoChunks(urls, 10);
-        console.log(urlChunks);
 
         const showRandomImages = () => {
-          if (urls.length === 0) return;
+          if (urlChunks.length === 0) return;
 
           const randomImages = [];
 
           for (let i = 0; i < 10; i++) {
-            if (urls.length === 0) break;
+            if (urlChunks.length === 0) break;
 
-            const index = Math.floor(Math.random() * urls.length);
-            randomImages.push(urls[index]);
-            urls.splice(index, 1);
+            const index = Math.floor(Math.random() * urlChunks.length);
+            randomImages.push(urlChunks[index]);
+            const newList = urlChunks.splice(index, 1);
+            setImgUrl(newList);
           }
-          setImgUrl(urlChunks);
+
+          setTimeout(function () {
+            console.log("나오나?");
+          }, 1000);
         };
         showRandomImages();
 
@@ -188,7 +191,7 @@ const MainPage = () => {
           img.onload = () => {
             resolve();
           };
-          img.src = imgUrl[index];
+          img.src = imgUrl[index][index];
         });
       })
     ).then(() => {
@@ -247,6 +250,7 @@ const MainPage = () => {
     }
     navigation(`/`);
   };
+  console.log(imgUrl);
 
   return (
     <article className="main_article">
@@ -264,15 +268,17 @@ const MainPage = () => {
               onClick={() => handleImgClick(index)}
               ref={(ref) => (imgDivRefs.current[index] = ref)}
             >
-              <img
-                key={index}
-                ref={(element) => (imgRefs.current[index] = element)}
-                id={`imgMove${index}`}
-                className="w-16 h-16"
-                src={item}
-                alt="고양이 이미지"
-                style={{ opacity: "0" }}
-              />
+              {item.map((i, index) => (
+                <img
+                  key={index}
+                  ref={(element) => (imgRefs.current[index] = element)}
+                  id={`imgMove${index}`}
+                  className="w-16 h-16"
+                  src={i}
+                  alt="고양이 이미지"
+                  style={{ opacity: "0" }}
+                />
+              ))}
             </div>
           ))}
         </div>
