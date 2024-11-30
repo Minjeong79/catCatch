@@ -16,10 +16,10 @@ const StartPage = () => {
       steps("easy", 9);
     } else if ("bFood" === buttonId) {
       sigAanonymous();
-      steps("normal", 6);
+      steps("normal", 7);
     } else {
       sigAanonymous();
-      steps("hard", 3);
+      steps("hard", 5);
     }
     audioCat.play();
     navigation(`/login`);
