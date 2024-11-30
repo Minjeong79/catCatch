@@ -54,7 +54,8 @@ const MainPage = () => {
   //점수
   const [score, SetScore] = useState<number>(0);
   //이미지
-  const [imgUrl, setImgUrl] = useState<string[][]>([]);
+  const [imgUrl, setImgUrl] = useState<string[]>([]);
+  // const [imgUrl, setimgUrl] = useState<string[]>([]);
   //시간초
   const [time, setTime] = useState<number>(10);
 
@@ -75,18 +76,6 @@ const MainPage = () => {
     y: 310,
   });
   // console.log(position);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
 
   const hadnleUserScore = async () => {
     try {
@@ -126,60 +115,39 @@ const MainPage = () => {
     }
   };
 
-  function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
-    const result: T[][] = [];
-    for (let i = 0; i < array.length; i++) {
-      const chunk = array.slice(i, i + chunkSize);
-      result.push(chunk);
+  const imgData = async () => {
+    const storage = getStorage(firebaseApp);
+    try {
+      const imageRef = ref(storage, `img/`);
+      const response = await listAll(imageRef);
+
+      const downloadURLPromises = response.items.map((item) =>
+        getDownloadURL(item)
+      );
+
+      const urls = await Promise.all(downloadURLPromises);
+
+      const fixedUrls =
+        urls.length >= 10
+          ? urls.slice(0, 10)
+          : [...urls, ...urls.slice(0, 10 - urls.length)];
+      setImgUrl(fixedUrls);
+    } catch (error) {
+      console.error("Error getting download URLs:", error);
     }
-    return result;
-  }
+  };
 
-  //이미지 관련
   useEffect(() => {
-    const imgData = async () => {
-      const storage = getStorage(firebaseApp);
-      try {
-        const imageRef = ref(storage, `img/`);
-        const response = await listAll(imageRef);
-
-        const downloadURLPromises = response.items.map((item) =>
-          getDownloadURL(item)
-        );
-
-        const urls = await Promise.all(downloadURLPromises);
-        const urlChunks = splitArrayIntoChunks(urls, 10);
-
-        const showRandomImages = () => {
-          if (urlChunks.length === 0) return;
-
-          const randomImages = [];
-
-          for (let i = 0; i < 10; i++) {
-            if (urlChunks.length === 0) break;
-
-            const index = Math.floor(Math.random() * urlChunks.length);
-            randomImages.push(urlChunks[index]);
-            const newList = urlChunks.splice(index, 1);
-            setImgUrl(newList);
-          }
-
-          setTimeout(function () {
-            console.log("나오나?");
-          }, 1000);
-        };
-        showRandomImages();
-
-        const interval = setInterval(() => {
-          showRandomImages();
-          if (urls.length === 0) clearInterval(interval);
-        }, 10000);
-        return () => clearInterval(interval);
-      } catch (error) {
-        console.error("Error getting download URLs:", error);
-      }
-    };
     imgData();
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   //이미지 css
@@ -191,19 +159,20 @@ const MainPage = () => {
           img.onload = () => {
             resolve();
           };
-          img.src = imgUrl[index][index];
+          img.src = imgUrl[index];
         });
       })
     ).then(() => {
       imgUrl.forEach((_, index) => {
-        const ramdom = Math.floor(Math.random() * 5);
+        const ramdom = Math.floor(Math.random() * 9);
         const keyframes = [
           { opacity: 0.9, transform: `translateX(${ramdom * 10}px)` },
           { opacity: 1, transform: `translate(${ramdom * 10}px, 800px)` },
         ];
+
         const options: AnimationType = {
           delay: ramdom * 500, //몇초동안 대기 후 시작
-          duration: 10000, //몇초동안 지속
+          duration: Number(`${stepValue.stepNumber}000`), //몇초동안 지속
           easing: "ease-in", //감속 조절
           iterations: 1, //반복 횟수
         };
@@ -213,21 +182,23 @@ const MainPage = () => {
     });
   };
 
-  useEffect(() => {
-    if (imgUrl.length) {
-      startAnimation();
-    }
-  }, [imgUrl]);
-
+  const [clickedIndexes, setClickedIndexes] = useState<Set<number>>(new Set());
   const handleImgClick = (index: number) => {
     const clickedImgRef = imgDivRefs.current[index];
-    if (clickedImgRef) {
+    if (!clickedIndexes.has(index) && clickedImgRef) {
       clickedImgRef.classList.add("transparent_image");
+      setClickedIndexes((prev) => new Set(prev.add(index)));
       SetScore((prevScore) => prevScore + 1);
     }
   };
 
-  //시간초
+  //시간초 와 이미지
+  useEffect(() => {
+    if (imgUrl.length === 0) return;
+
+    startAnimation();
+  }, [imgUrl]);
+
   useEffect(() => {
     const count = setInterval(() => {
       setTime(time - 1);
@@ -250,7 +221,6 @@ const MainPage = () => {
     }
     navigation(`/`);
   };
-  console.log(imgUrl);
 
   return (
     <article className="main_article">
@@ -264,24 +234,29 @@ const MainPage = () => {
           {imgUrl.map((item, index) => (
             <div
               key={index}
-              className="w-16 h-16"
+              className=""
               onClick={() => handleImgClick(index)}
               ref={(ref) => (imgDivRefs.current[index] = ref)}
             >
-              {item.map((i, index) => (
-                <img
-                  key={index}
-                  ref={(element) => (imgRefs.current[index] = element)}
-                  id={`imgMove${index}`}
-                  className="w-16 h-16"
-                  src={i}
-                  alt="고양이 이미지"
-                  style={{ opacity: "0" }}
-                />
-              ))}
+              <ul className="flex">
+                {/* {item.map((i, index) => ( */}
+                <li key={index}>
+                  <img
+                    key={index}
+                    ref={(element) => (imgRefs.current[index] = element)}
+                    id={`imgMove${index}`}
+                    className="w-16 h-16"
+                    src={item}
+                    alt="고양이 이미지"
+                    style={{ opacity: "0" }}
+                  />
+                </li>
+                {/* ))} */}
+              </ul>
             </div>
           ))}
         </div>
+
         <div className="bg-stone-400 h-32"></div>
         <div className="flex items-center justify-center">
           <div ref={divRef} className="hidden pop">
